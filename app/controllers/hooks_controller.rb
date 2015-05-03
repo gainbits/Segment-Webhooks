@@ -5,5 +5,7 @@ class HooksController < ApplicationController
 		data_json = JSON.parse request.body.read
 
 		puts data_json
+
+		return 200
 	end
 end
