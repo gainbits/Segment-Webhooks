@@ -1,8 +1,8 @@
 class HooksController < ApplicationController
 	require 'json'
 
-	def index
-		data_json = JSON::parse(request.body.read).with_indifferent_access
+	def analytics
+		data_json = JSON.parse request.body.read
 
 		puts data_json
 	end
