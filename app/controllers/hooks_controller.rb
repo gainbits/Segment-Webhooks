@@ -1,11 +1,29 @@
 class HooksController < ApplicationController
-	require 'json'
+  require 'json'
 
-	def analytics
-		data_json = JSON.parse request.body.read
+  protect_from_forgery :except => :analytics_callback
 
-		puts data_json
+  
+  def analytics_callback
+    data_json = JSON.parse(request.body.read)
 
-		return 200
-	end
+    if data_json['type'] == "page"
+
+      webhook = Hook.new
+
+      webhook.anon_id    =  data_json['anonymousId']
+      webhook.event_type       =  data_json['type']
+      webhook.path       =  data_json['context']['page']['path']
+      webhook.timestamp  =  data_json['timestamp']
+      webhook.referrer   =  data_json['referrer']
+
+      webhook.save
+
+    else
+
+    end
+
+    render :nothing => true
+
+  end
 end

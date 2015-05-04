@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  root 'welcome#index'
+  scope '/hooks', :controller => :hooks do
+  	post :analytics_callback
+  end
 end
